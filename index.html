@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080d16">
+<title>LIVORA — Wellness Intelligence</title>
+<link rel="manifest" href="/manifest.json">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg:#080d16;
+  --surface:#101824;
+  --surface2:#141f2d;
+  --line:rgba(255,255,255,.075);
+  --text:#f2f7f5;
+  --muted:#8999a9;
+  --mint:#9cf2cf;
+  --mint2:#50d9a6;
+  --blue:#9bbaff;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:
+    radial-gradient(ellipse at 80% -10%,rgba(66,125,117,.14),transparent 38%),
+    radial-gradient(ellipse at -10% 25%,rgba(83,104,170,.12),transparent 34%),
+    var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',system-ui,sans-serif;
+  min-height:100vh;
+}
+button,input {font:inherit}
+button {cursor:pointer}
+.shell {display:flex;min-height:100vh}
+.sidebar {
+  width:230px;flex-shrink:0;padding:30px 19px;
+  border-right:1px solid var(--line);
+  background:rgba(8,13,22,.82);
+}
+.logo {display:flex;align-items:center;gap:11px;margin:0 0 48px 8px}
+.logo-mark {
+  width:36px;height:36px;border-radius:12px;
+  display:grid;place-items:center;color:#092016;
+  background:linear-gradient(135deg,#b5ffdc,#5cd9aa);
+  font-size:22px;font-weight:900;
+  box-shadow:0 0 25px #71e6b522;
+}
+.logo-name {font-family:Manrope,sans-serif;font-weight:800;letter-spacing:3px;font-size:19px}
+.logo-caption {font-size:10px;color:var(--muted);letter-spacing:1.6px;margin-top:3px}
+.nav-label {font-size:10px;letter-spacing:1.8px;color:#627284;margin:0 0 12px 12px}
+.nav-item {
+  display:flex;align-items:center;gap:12px;padding:13px 14px;
+  color:#96a5b5;border-radius:12px;margin:5px 0;font-size:13px;
+}
+.nav-item.active {color:var(--mint);background:#9cf2cf0e;border:1px solid #9cf2cf18}
+.nav-icon {width:21px;text-align:center;font-size:17px}
+.side-bottom {margin-top:60px;padding:16px;border:1px solid var(--line);background:#ffffff04;border-radius:15px}
+.status-dot {display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--mint);margin-right:8px;box-shadow:0 0 10px #9cf2cf77}
+.side-bottom p {font-size:11px;color:var(--muted);line-height:1.7;margin:10px 0 0}
+main {flex:1;min-width:0;max-width:1500px;margin:auto;padding:31px clamp(20px,4vw,58px) 50px}
+.topbar {display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:34px}
+.breadcrumb {font-size:12px;color:var(--muted)}
+.breadcrumb span {color:#e9f4ee}
+.top-right {display:flex;align-items:center;gap:12px}
+.live-pill {font-size:11px;padding:8px 11px;border:1px solid #9cf2cf20;background:#9cf2cf09;border-radius:99px;color:var(--mint)}
+.avatar {width:37px;height:37px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#314f53,#243044);border:1px solid #ffffff16;font-size:13px}
+.heading-row {display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:25px}
+.kicker {color:var(--mint);font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase}
+h1 {font-family:Manrope,sans-serif;font-size:clamp(28px,4vw,39px);letter-spacing:-1.5px;line-height:1.2;margin:10px 0}
+.subtitle {color:var(--muted);font-size:13px;line-height:1.8}
+.date-label {font-size:12px;color:#a9b6c3;border:1px solid var(--line);background:#ffffff04;padding:11px 14px;border-radius:11px;white-space:nowrap}
+.grid {display:grid;grid-template-columns:minmax(0,1.25fr) minmax(270px,.75fr);gap:17px}
+.card {background:linear-gradient(145deg,#121d2b,#0e1723);border:1px solid var(--line);border-radius:20px;padding:24px;min-width:0;box-shadow:0 15px 40px #00000012}
+.card-head {display:flex;justify-content:space-between;align-items:center;gap:10px}
+.card-title {font-family:Manrope,sans-serif;font-size:14px;font-weight:700}
+.card-note {font-size:11px;color:var(--muted);margin-top:5px}
+.score-card {position:relative;overflow:hidden;min-height:310px}
+.score-card:after {content:"";position:absolute;width:230px;height:230px;right:-115px;top:-120px;border-radius:50%;border:1px solid #9cf2cf10;box-shadow:0 0 0 30px #9cf2cf04,0 0 0 60px #9cf2cf03;pointer-events:none}
+.score-layout {display:flex;align-items:center;justify-content:space-around;gap:20px;padding:26px 0 5px}
+.ring {
+  width:184px;height:184px;border-radius:50%;flex-shrink:0;
+  display:grid;place-items:center;position:relative;
+  background:conic-gradient(from -90deg,var(--mint) 0deg,#4fbe9c 250deg,#273644 250deg 360deg);
+  box-shadow:0 0 42px #50d9a610;
+}
+.ring:before {content:"";position:absolute;inset:9px;border-radius:50%;background:#111b28;border:1px solid #ffffff09}
+.ring-content {position:relative;text-align:center}
+.ring-score {font-family:Manrope,sans-serif;font-size:51px;font-weight:800;letter-spacing:-3px;line-height:1.1}
+.ring-outof {font-size:11px;color:var(--muted);margin-top:4px}
+.ring-label {font-size:10px;color:var(--mint);letter-spacing:1.6px;margin-top:9px;font-weight:700}
+.score-detail {max-width:180px}
+.score-detail h3 {font-family:Manrope,sans-serif;font-size:18px;margin:0 0 8px}
+.score-detail p {font-size:12px;color:var(--muted);line-height:1.8;margin:0}
+.mini-stat {border-top:1px solid var(--line);padding-top:15px;margin-top:16px;display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--muted)}
+.mini-stat strong {color:#eaf4ee;font-size:12px}
+.mint {color:var(--mint)!important}
+.device-card {display:flex;flex-direction:column;justify-content:space-between;min-height:310px;background:radial-gradient(ellipse at 100% 0%,#496d6819,transparent 55%),linear-gradient(145deg,#14222c,#101723)}
+.device-visual {display:grid;place-items:center;padding:18px 0 20px}
+.band {
+  width:104px;height:145px;border-radius:39px;
+  background:linear-gradient(120deg,#1c2a35,#090f16 60%,#263d3b);
+  border:1px solid #91e8c329;box-shadow:inset 0 0 0 5px #ffffff03,0 15px 40px #0005;
+  transform:rotate(-12deg);display:grid;place-items:center;position:relative;
+}
+.band:before,.band:after {content:"";position:absolute;width:40px;height:20px;border:1px solid #8ca39d27}
+.band:before {top:-19px;border-radius:9px 9px 0 0;border-bottom:0}
+.band:after {bottom:-19px;border-radius:0 0 9px 9px;border-top:0}
+.band-screen {width:72px;height:90px;border-radius:23px;background:linear-gradient(155deg,#142b2c,#071713);border:1px solid #9cf2cf35;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--mint);box-shadow:inset 0 0 25px #56e8ac0d}
+.band-wave {font-size:23px;line-height:1.2}
+.band-label {font-size:8px;letter-spacing:1.5px;margin-top:8px}
+.connection {display:flex;align-items:center;justify-content:space-between;padding-top:15px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);gap:8px}
+.connection strong {color:#eaf4ee;font-weight:600}
+.outline-btn {padding:10px 12px;border-radius:10px;border:1px solid #9cf2cf29;background:#9cf2cf0a;color:var(--mint);font-size:11px;font-weight:700}
+.bottom-grid {display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:17px}
+.activity-card,.history-card {min-height:250px}
+.activity-number {font-family:Manrope,sans-serif;font-size:42px;font-weight:800;letter-spacing:-2px;margin:24px 0 2px}
+.activity-number span {font-size:13px;letter-spacing:0;color:var(--muted);font-weight:500}
+.activity-track {display:flex;align-items:end;gap:8px;height:56px;margin:22px 0 15px}
+.activity-track i {display:block;flex:1;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,#8bf0c4,#388f7d);opacity:.65}
+.activity-track i:nth-child(1){height:25%}.activity-track i:nth-child(2){height:48%}.activity-track i:nth-child(3){height:34%}.activity-track i:nth-child(4){height:75%}.activity-track i:nth-child(5){height:55%}.activity-track i:nth-child(6){height:88%}.activity-track i:nth-child(7){height:62%}
+.field-label {display:block;color:var(--muted);font-size:11px;margin-top:17px}
+input {width:100%;background:#09111c;border:1px solid #ffffff13;border-radius:10px;padding:12px;color:white;margin-top:8px;outline:none}
+input:focus {border-color:#9cf2cf70}
+.primary-btn {width:100%;border:0;border-radius:10px;padding:12px;margin-top:10px;background:linear-gradient(100deg,#a6f6d4,#6edbb5);color:#092016;font-weight:800;font-size:12px}
+.hint {color:#7f91a4;font-size:10px;line-height:1.7;margin-top:10px}
+.history-list {list-style:none;margin:18px 0 0;padding:0}
+.history-list li {border-bottom:1px solid var(--line);padding:12px 0;font-size:11px;color:#bac7d5;line-height:1.6;overflow-wrap:anywhere}
+.history-list li:last-child {border-bottom:0}
+.secondary-btn {width:100%;border:1px solid var(--line);background:#ffffff05;color:#aab9c8;border-radius:10px;padding:11px;margin-top:13px;font-size:11px}
+.privacy {text-align:center;color:#617183;font-size:10px;margin-top:26px;line-height:1.8}
+@media(max-width:850px) {
+ .sidebar{width:72px;padding:25px 10px}
+ .logo{margin:0 0 42px;justify-content:center}
+ .logo-text,.nav-label,.nav-item span:not(.nav-icon),.side-bottom{display:none}
+ .nav-item{justify-content:center;padding:13px 5px}
+ .grid{grid-template-columns:1fr}
+ .score-card,.device-card{min-height:unset}
+ .bottom-grid{grid-template-columns:1fr}
+}
+@media(max-width:520px) {
+ .sidebar{display:none}
+ main{padding:20px 14px 35px}
+ .topbar{margin-bottom:26px}
+ .heading-row{align-items:start;flex-direction:column}
+ .score-layout{flex-direction:column;text-align:center}
+ .score-detail{max-width:270px}
+ .ring{width:170px;height:170px}
+ .card{padding:20px}
+}
+@media(prefers-reduced-motion:reduce) {
+ *{scroll-behavior:auto!important;transition:none!important}
+}
+
+/* Functional page navigation and login additions */
+.nav-item {width:100%;border:1px solid transparent;background:transparent;text-align:left;font:inherit;cursor:pointer}
+.nav-item:hover {background:#ffffff08;color:var(--text)}
+.nav-item:focus-visible,button:focus-visible,a:focus-visible {outline:2px solid var(--mint);outline-offset:3px}
+.nav-item.active {color:var(--mint);background:#9cf2cf0e;border-color:#9cf2cf18}
+.shell[hidden],.page-view[hidden],.login-screen[hidden] {display:none!important}
+.page-view {animation:pageIn .18s ease-out}
+@keyframes pageIn {from{opacity:.65;transform:translateY(3px)}to{opacity:1;transform:none}}
+.page-heading {margin:5px 0 22px}
+.page-heading h1 {margin-bottom:8px}
+.page-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.metric {font-family:Manrope,sans-serif;font-size:30px;font-weight:800;margin-top:18px}
+.progress-track {height:8px;background:#ffffff12;border-radius:99px;overflow:hidden;margin-top:12px}
+.progress-fill {height:100%;background:linear-gradient(90deg,#50d9a6,#b5ffdc);border-radius:99px;width:0%;transition:width .25s}
+.form-row {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.field-label {letter-spacing:.5px}
+.inline-check {display:flex;align-items:center;gap:10px;color:var(--muted);font-size:12px;margin:13px 0}
+.inline-check input {width:auto;margin:0}
+.notice {padding:13px 15px;border:1px solid #9cf2cf22;background:#9cf2cf08;border-radius:12px;color:#a8c3ba;font-size:12px;line-height:1.7;margin-top:14px}
+.danger-btn {color:#ffb4b4;background:#ff707010;border:1px solid #ff707033}
+.sidebar .logout-nav {margin-top:20px;color:#ffb8b8}
+.login-screen {position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:22px;background:radial-gradient(ellipse at 80% 0%,#28574b55,transparent 40%),rgba(5,9,16,.97);backdrop-filter:blur(12px)}
+.login-screen[hidden] {display:none!important}
+.login-card {width:min(430px,100%);padding:32px;border:1px solid #ffffff18;border-radius:24px;background:linear-gradient(145deg,#142231,#0d1520);box-shadow:0 30px 90px #0008}
+.login-brand {display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.login-card h1 {font-size:27px;margin:0 0 9px;letter-spacing:-.8px}
+.login-card p {font-size:12px;color:var(--muted);line-height:1.8}
+.login-card .field-label {margin-top:17px}
+.login-actions {display:flex;gap:10px;margin-top:8px}
+.login-actions button {flex:1}
+.login-message {min-height:20px;font-size:12px;color:#ffb7a7;margin-top:10px}
+.profile-menu {display:flex;align-items:center;gap:10px}
+@media(max-width:850px){.page-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.form-row{grid-template-columns:1fr}.login-card{padding:24px}.sidebar.mobile-open{display:block;position:fixed;z-index:50;inset:0 auto 0 0;width:245px;background:#080d16;box-shadow:20px 0 60px #0009}.sidebar.mobile-open .logo-text,.sidebar.mobile-open .nav-label,.sidebar.mobile-open .nav-item span:not(.nav-icon),.sidebar.mobile-open .side-bottom{display:block}.sidebar.mobile-open .logo{justify-content:flex-start}.sidebar.mobile-open .nav-item{justify-content:flex-start;padding:13px 14px}}
+
+</style>
+</head>
+<body>
+<section class="login-screen" id="loginScreen" aria-labelledby="loginTitle">
+  <div class="login-card"><div class="login-brand"><div class="logo-mark">L</div><div><div class="logo-name">LIVORA</div><div class="logo-caption">WELLNESS INTELLIGENCE</div></div></div>
+    <h1 id="loginTitle">Welcome to your balance.</h1><p>Sign in to open your personal wellness space, or create a local demo account.</p>
+    <form id="loginForm"><label class="field-label" for="loginEmail">EMAIL</label><input id="loginEmail" type="email" autocomplete="username" required placeholder="you@example.com"><label class="field-label" for="loginPassword">PASSWORD</label><input id="loginPassword" type="password" autocomplete="current-password" minlength="6" required placeholder="At least 6 characters"><div class="login-message" id="loginMessage" role="status" aria-live="polite"></div><div class="login-actions"><button class="primary-btn" type="submit" id="loginSubmit">Sign in</button><button class="secondary-btn" type="button" id="registerButton">Create account</button></div><button class="secondary-btn" type="button" id="demoLoginButton" style="width:100%;margin-top:10px">Enter demo without an account</button></form>
+    <div class="notice">Prototype login only: accounts are stored in this browser and are not secure production authentication. Use a demo password, not a password you use elsewhere.</div>
+  </div>
+</section>
+<div class="shell" id="appShell" hidden>
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark">L</div>
+      <div class="logo-text">
+        <div class="logo-name">LIVORA</div>
+        <div class="logo-caption">WELLNESS INTELLIGENCE</div>
+      </div>
+    </div>
+    <div class="nav-label">WORKSPACE</div>
+    <button class="nav-item active" type="button" data-page="overview"><span class="nav-icon">◈</span><span>Overview</span></button>
+    <button class="nav-item" type="button" data-page="usage"><span class="nav-icon">◷</span><span>Digital balance</span></button>
+    <button class="nav-item" type="button" data-page="activity"><span class="nav-icon">⌁</span><span>Activity</span></button>
+    <button class="nav-item" type="button" data-page="history"><span class="nav-icon">▤</span><span>History & trends</span></button>
+    <div class="nav-label" style="margin-top:32px">YOUR DEVICE</div>
+    <button class="nav-item" type="button" data-page="band"><span class="nav-icon">⌚</span><span>Smart band</span></button>
+    <button class="nav-item" type="button" data-page="settings"><span class="nav-icon">⚙</span><span>Settings</span></button>
+    <button class="nav-item logout-nav" type="button" id="logoutButton"><span class="nav-icon">↪</span><span>Log out</span></button>
+    <div class="side-bottom">
+      <span class="status-dot"></span><span style="font-size:11px">Privacy first</span>
+      <p>Your demo history stays in this browser on this device.</p>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <button type="button" class="outline-btn" id="mobileMenuButton" aria-label="Open navigation" style="display:none">☰</button>
+      <div class="breadcrumb">Workspace <span id="breadcrumbPage"> / Overview</span></div>
+      <div class="top-right">
+        <div class="live-pill"><span class="status-dot"></span>WELLNESS SPACE</div>
+        <div class="profile-menu"><span id="userDisplay" style="font-size:11px;color:var(--muted)">Guest</span><div class="avatar" id="userAvatar">L</div></div>
+      </div>
+    </div>
+
+    <section class="page-view" id="page-overview" data-title="Overview">
+    <div class="heading-row">
+      <div>
+        <div class="kicker">YOUR PERSONAL WELLNESS SPACE</div>
+        <h1>A little more balance.<br>A lot more you.</h1>
+        <div class="subtitle">Understand your digital habits and make room for what matters.</div>
+      </div>
+      <div class="date-label" id="todayDate">Your daily overview</div>
+    </div>
+
+    <div class="grid">
+      <section class="card score-card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Balance score</div>
+            <div class="card-note">Your daily wellness snapshot</div>
+          </div>
+          <span class="live-pill">DEMO SCORE</span>
+        </div>
+        <div class="score-layout">
+          <div class="ring" id="scoreRing">
+            <div class="ring-content">
+              <div class="ring-score" id="score">100</div>
+              <div class="ring-outof">out of 100</div>
+              <div class="ring-label">BALANCE</div>
+            </div>
+          </div>
+          <div class="score-detail">
+            <h3 id="scoreTitle">A fresh start.</h3>
+            <p id="scoreMessage">Your wellness overview will grow as you connect real activity and usage data.</p>
+            <div class="mini-stat"><span>Activity input</span><strong id="activitySummary">20 min demo</strong></div>
+            <div class="mini-stat"><span>Tracking status</span><strong id="trackingSummary">Not connected</strong></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card device-card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Your LIVORA band</div>
+            <div class="card-note">Movement insights, on your wrist</div>
+          </div>
+          <span style="color:#8b99a9;font-size:11px">BLE</span>
+        </div>
+        <div class="device-visual">
+          <div class="band">
+            <div class="band-screen">
+              <div class="band-wave">∿</div>
+              <div class="band-label">LIVORA</div>
+            </div>
+          </div>
+        </div>
+        <div class="connection">
+          <span id="deviceStatus"><span class="status-dot" style="background:#778697;box-shadow:none"></span>Band not connected</span>
+          <button class="outline-btn" id="connectButton">Check support</button>
+        </div>
+        <p class="hint" id="usageStatus">Automatic app-usage tracking is not connected.</p>
+      </section>
+    </div>
+
+    <div class="bottom-grid">
+      <section class="card activity-card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Movement & activity</div>
+            <div class="card-note">Make time for a little movement</div>
+          </div>
+          <span style="color:var(--mint);font-size:18px">⌁</span>
+        </div>
+        <div class="activity-number"><span id="activityBig">20</span> <span>minutes</span></div>
+        <div class="activity-track" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <label class="field-label" for="activityMinutes">DEMO ACTIVITY MINUTES</label>
+        <input id="activityMinutes" type="number" min="0" max="1440" value="20">
+        <button id="calculateButton" class="primary-btn">Update demo overview ↗</button>
+        <div class="hint">Manual demo input — not yet measured by your band.</div>
+      </section>
+
+      <section class="card history-card">
+        <div class="card-head">
+          <div>
+            <div class="card-title">Recent history</div>
+            <div class="card-note">Your latest saved demo entries</div>
+          </div>
+          <span style="color:var(--mint);font-size:11px">LOCAL</span>
+        </div>
+        <ul id="history" class="history-list"><li>No saved entries yet.</li></ul>
+        <button id="clearButton" class="secondary-btn">Clear local history</button>
+      </section>
+    </div>
+    </section>
+
+    <section class="page-view" id="page-usage" data-title="Digital balance" hidden>
+      <div class="page-heading"><div class="kicker">DIGITAL BALANCE</div><h1>Your screen-time picture.</h1><p class="subtitle">Record the time you spend across categories and review your daily balance.</p></div>
+      <div class="page-grid">
+        <section class="card"><div class="card-title">Today's usage (manual demo)</div><p class="card-note">Enter minutes for each category. Values are saved only in this browser.</p>
+          <div class="form-row"><div><label class="field-label" for="usageSocial">SOCIAL MEDIA (MIN)</label><input id="usageSocial" type="number" min="0" max="1440" value="30"></div><div><label class="field-label" for="usageGames">GAMES (MIN)</label><input id="usageGames" type="number" min="0" max="1440" value="20"></div><div><label class="field-label" for="usageVideo">VIDEO / STREAMING (MIN)</label><input id="usageVideo" type="number" min="0" max="1440" value="30"></div><div><label class="field-label" for="usageStudy">STUDY / PRODUCTIVITY (MIN)</label><input id="usageStudy" type="number" min="0" max="1440" value="60"></div></div>
+          <button class="primary-btn" id="saveUsageButton">Save usage</button><div class="notice" id="usageSavedMessage">No usage entry saved yet. This form is manual; it does not read other apps automatically.</div></section>
+        <section class="card"><div class="card-title">Usage summary</div><div class="metric" id="totalUsage">140 <span style="font-size:13px;color:var(--muted)">min total</span></div><div class="card-note">All entered categories</div><div class="mini-stat"><span>Recreational (social + games + video)</span><strong id="recreationalUsage">80 min</strong></div><div class="mini-stat"><span>Study / productivity</span><strong id="studyUsage">60 min</strong></div><div class="notice">Automatic Android app usage requires a native integration and the user's Usage Access permission. A website cannot read all app usage directly.</div></section>
+      </div>
+    </section>
+
+    <section class="page-view" id="page-activity" data-title="Activity" hidden>
+      <div class="page-heading"><div class="kicker">MOVEMENT</div><h1>Make room to move.</h1><p class="subtitle">Record a simple activity summary. Real band measurements are not connected yet.</p></div>
+      <div class="page-grid"><section class="card"><div class="card-title">Today's activity</div><label class="field-label" for="activityEntry">ACTIVITY MINUTES</label><input id="activityEntry" type="number" min="0" max="1440" value="20"><label class="field-label" for="stepsEntry">STEP COUNT (OPTIONAL DEMO)</label><input id="stepsEntry" type="number" min="0" max="100000" value="0"><button class="primary-btn" id="saveActivityButton">Save activity</button><p class="hint">These values are manually entered demonstration data, not sensor readings.</p></section><section class="card"><div class="card-title">Activity snapshot</div><div class="metric" id="activityMinutesSummary">20 <span style="font-size:13px;color:var(--muted)">minutes</span></div><div class="mini-stat"><span>Steps entered</span><strong id="stepsSummary">0</strong></div><div class="notice" id="activitySavedMessage">Activity is not yet saved.</div></section></div>
+    </section>
+
+    <section class="page-view" id="page-history" data-title="History & trends" hidden>
+      <div class="page-heading"><div class="kicker">YOUR PROGRESS</div><h1>History & trends.</h1><p class="subtitle">Review entries saved in this browser on this device.</p></div>
+      <section class="card"><div class="card-head"><div><div class="card-title">Saved wellness history</div><div class="card-note">Scores and activity snapshots</div></div><button class="outline-btn" type="button" id="refreshHistoryButton">Refresh</button></div><ul class="history-list" id="fullHistory"><li>No saved entries yet.</li></ul><button class="secondary-btn danger-btn" id="clearHistoryPageButton" type="button">Clear history</button></section>
+    </section>
+
+    <section class="page-view" id="page-band" data-title="Smart band" hidden>
+      <div class="page-heading"><div class="kicker">DEVICE CONNECTION</div><h1>Your band, at a glance.</h1><p class="subtitle">Check browser support and prepare for a compatible device connection.</p></div>
+      <div class="page-grid"><section class="card"><div class="card-title">LIVORA smart band</div><div class="device-visual"><div class="band"><div class="band-screen"><div class="band-wave">∿</div><div class="band-label">LIVORA</div></div></div></div><div class="mini-stat"><span>Connection status</span><strong id="bandPageStatus">Not connected</strong></div><button class="primary-btn" type="button" id="bandCheckButton">Check browser support</button><div class="notice" id="bandMessage">No device connection has been established.</div></section><section class="card"><div class="card-title">Before connecting</div><p class="subtitle">Web Bluetooth support depends on the browser, operating system, secure HTTPS context, and the device's Bluetooth protocol. ESP32 BLE communication needs a matching GATT service and characteristics.</p><p class="subtitle">This page does not show live sensor readings unless a real connection and data protocol are implemented.</p></section></div>
+    </section>
+
+    <section class="page-view" id="page-settings" data-title="Settings" hidden>
+      <div class="page-heading"><div class="kicker">PREFERENCES</div><h1>Your settings.</h1><p class="subtitle">Manage your local profile and demonstration preferences.</p></div>
+      <div class="page-grid"><section class="card"><div class="card-title">Profile</div><label class="field-label" for="settingsName">DISPLAY NAME</label><input id="settingsName" type="text" maxlength="60"><label class="field-label" for="dailyTarget">DAILY RECREATIONAL TARGET (MIN)</label><input id="dailyTarget" type="number" min="0" max="1440" value="120"><button class="primary-btn" id="saveSettingsButton">Save settings</button><div class="notice" id="settingsMessage">Settings are stored locally in this browser.</div></section><section class="card"><div class="card-title">Privacy & account</div><p class="subtitle">This prototype stores demo data in this browser. It does not provide secure server-side authentication.</p><button class="secondary-btn danger-btn" id="clearAllButton" type="button">Clear all local LIVORA data</button><button class="secondary-btn" id="settingsLogoutButton" type="button">Log out</button></section></div>
+    </section>
+
+    <div class="privacy">LIVORA · DIGITAL WELLNESS, WITH YOU IN MIND<br>Demo scores are illustrative, not medical assessments. Tracking features are not connected yet.</div>
+  </main>
+</div>
+
+<script>
+document.getElementById('todayDate').textContent =
+  new Intl.DateTimeFormat(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'}).format(new Date());
+
+const scoreNode = document.getElementById('score');
+const ring = document.getElementById('scoreRing');
+
+const observer = new MutationObserver(() => {
+  const score = Math.max(0,Math.min(100,Number(scoreNode.textContent)||0));
+  ring.style.background =
+    `conic-gradient(from -90deg,#9cf2cf ${score*3.6}deg,#273644 ${score*3.6}deg 360deg)`;
+  document.getElementById('scoreTitle').textContent =
+    score >= 80 ? 'Finding your flow.' : score >= 50 ? 'Room to rebalance.' : 'Take a gentle reset.';
+  const input = document.getElementById('activityMinutes');
+  document.getElementById('activityBig').textContent = input.value || '0';
+  document.getElementById('activitySummary').textContent = `${input.value || 0} min demo`;
+});
+observer.observe(scoreNode,{childList:true,characterData:true,subtree:true});
+
+document.getElementById('activityMinutes').addEventListener('input', e => {
+  document.getElementById('activityBig').textContent = e.target.value || '0';
+  document.getElementById('activitySummary').textContent = `${e.target.value || 0} min demo`;
+});
+
+</script>
+<script src="/app.js"></script>
+</body>
+</html>
+

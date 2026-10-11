@@ -1,0 +1,147 @@
+﻿* { box-sizing: border-box; }
+
+:root {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #f4f7ff;
+  background: #090e1b;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 10% 0%, #263466 0, transparent 40%),
+    radial-gradient(ellipse at 95% 25%, #123e3b 0, transparent 35%),
+    #090e1b;
+}
+
+header {
+  padding: 30px 20px;
+  text-align: center;
+  border-bottom: 1px solid #ffffff15;
+  background: #10182bbb;
+}
+
+.brand {
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: 8px;
+  color: #82f3c4;
+}
+
+.subtitle { color: #aab7d0; margin-top: 8px; }
+
+main {
+  width: min(850px, 100%);
+  margin: auto;
+  padding: 26px 18px 50px;
+}
+
+.panel {
+  padding: 26px;
+  margin-bottom: 20px;
+  border: 1px solid #ffffff17;
+  border-radius: 22px;
+  background: linear-gradient(145deg, #1a2744ee, #121b30ee);
+  box-shadow: 0 15px 40px #0003;
+}
+
+.panel:first-child {
+  background: linear-gradient(135deg, #1c3450, #222047);
+}
+
+h2 { font-size: 21px; margin-top: 0; }
+
+.eyebrow {
+  color: #82f3c4;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.score {
+  font-size: clamp(72px, 15vw, 110px);
+  font-weight: 900;
+  letter-spacing: -5px;
+  color: #82f3c4;
+  line-height: 1.2;
+}
+
+#scoreMessage, #deviceStatus, #usageStatus {
+  color: #c1cde2;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.progress {
+  height: 9px;
+  margin-top: 20px;
+  background: #ffffff17;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+#progress {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #61dfb1, #b5f8d7);
+  transition: width .5s;
+}
+
+button, input {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 15px;
+  margin-top: 12px;
+  border-radius: 12px;
+  font: inherit;
+}
+
+button {
+  border: 0;
+  color: #10241e;
+  background: #82f3c4;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+button:hover { filter: brightness(1.08); }
+
+button.secondary {
+  color: #f4f7ff;
+  background: #2b3955;
+  border: 1px solid #ffffff1c;
+}
+
+input {
+  color: white;
+  background: #0b1221;
+  border: 1px solid #394968;
+}
+
+label { color: #c4cee1; }
+
+ul { list-style: none; padding: 0; }
+
+li {
+  padding: 14px 0;
+  border-bottom: 1px solid #ffffff16;
+  color: #dce5f5;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.hint, .privacy {
+  color: #9caac5;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.privacy { text-align: center; }
+
+@media (max-width: 480px) {
+  main { padding: 16px 12px; }
+  .panel { padding: 20px; border-radius: 18px; }
+  .brand { font-size: 30px; }
+}
